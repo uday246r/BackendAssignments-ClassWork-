@@ -29,7 +29,7 @@ setInterval(()=>{
  const currentTime = new Date().toLocaleTimeString();
 fs.appendFile("./activity.log",currentTime,(err)=>{
     fs.readFile("./activity.log","utf-8",(err,data)=>{
-    console.log("Time After 2 minutes: " ,currentTime);
+    console.log(data);
    })
 })
 },10000)
