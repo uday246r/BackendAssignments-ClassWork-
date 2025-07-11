@@ -13,8 +13,8 @@
 // Extra part
 // ........................................................................................................
 
-// const fs = require('fs');
-// const path = require('path');
+const fs = require('fs');
+const path = require('path');
 
 // Get the current filenames
 // before the function
@@ -41,7 +41,36 @@
 
 //Solution
 
-fs.writeFile("./reportBackup.pdf","report.pdf",(err)=>{
-    if(!err) console.log("Sucessfully backup")
-        else console.log("Backup Fail")
+// fs.readdir(".",{WithFileTypes:true},(err,data)=>{
+// fs.writeFile("./reportBackup.pdf",data,(err)=>{
+//     if(!err) console.log("Sucessfully backup")
+//         else console.log("Backup Fail")
+// })
+// })
+
+
+const targetPath = path.join(__dirname,"../../../");
+
+fs.readdir(targetPath,{withFileTypes : true},(err,files)=>{
+    if(!err){
+        files.forEach((file)=>{
+            if(file.isFile() && file.name.endsWith(".txt")){
+                const filePath = path.join(targetPath,file.name)
+                fs.readFile(filePath,"utf-8",(err,data)=>{
+                fs.appendFile("backup.txt",data,(err)=>{
+                    if(!err){
+                        console.log("sucessfully written");
+                    }
+                    else{
+                        console.log("Fail to write");
+                    }
+                })
+            })
+            }
+        })
+    }
+    else{
+        console.log("Fail to initial read");
+    }
 })
+
