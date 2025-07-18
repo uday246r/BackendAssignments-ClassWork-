@@ -1,0 +1,10 @@
+form{
+    background-color: slategray;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+}
+img{
+    height:150px;    
+}
