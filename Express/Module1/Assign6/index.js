@@ -9,7 +9,7 @@ const users = [
 
 app.get("/user/:id",(req,res)=>{
     const { id } = req.params;
-    const person = users.find(users=>users.id==id);
+    const person = users.find(user=>user.id==id);
     res.send(`${person.name} has id ${person.id} is ${person.age} years old.`)
 })
 

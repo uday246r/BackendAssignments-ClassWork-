@@ -1,8 +1,8 @@
 const express = require('express');
-const route = express.Router();
+// const route = express.Router();
 const server = express();
 
-route.get('/greet',(req,res)=>{
+server.get('/greet',(req,res)=>{
     const greetings = {
         en : "Hello",
         fr: "Bonjour",
@@ -16,7 +16,7 @@ route.get('/greet',(req,res)=>{
     res.send(message);
 })
 
-server.use('/',route);
+// server.use('/',route);
 
 server.listen(3000,()=>{
     console.log("server started...");
