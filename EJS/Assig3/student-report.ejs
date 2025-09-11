@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+.red{
+    color: red;
+}
+</style>
+<body>
+    
+    <table border="1px">
+        <thead>
+            <td>Name</td>
+            <td>Math</td>
+            <td>Science</td>
+            <td>English</td>
+        </thead>
+        <tbody>
+            <% students.forEach((e)=>{ %>
+                <tr>
+                    <td><%=e.name %></td>
+                    <td class="<%= e.marks.math<70 ? 'red' : '' %>"><%=e.marks.math %></td>
+                    <td class="<%= e.marks.science<70 ? 'red' : '' %>"><%=e.marks.science %></td>
+                    <td class="<%= e.marks.english<70 ? 'red' : '' %>"><%=e.marks.english %></td>
+                </tr>
+           <% }) %>
+        </tbody>
+    </table>
+</body>
+</html>
