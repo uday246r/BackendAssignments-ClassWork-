@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <% if(errorData.errorType === "NOT_FOUND"){ %>
+        <h2>Page not found </h2>
+ 
+  <% } else if(errorData.errorType === "NOT_FOUND"){ %>
+        <h2> Internal server error </h2>
+
+   <% } else{ %>
+    <h2>Please check your form inputs</h2>
+  <% } %>
+
+    <h5><%= errorData.errorType %></h5>
+    <p><%= errorData.statusCode %></p>
+    <p><%= errorData.message %></p>
+    <p><%= errorData.timestamp %></p>
+    <p><%= errorData.requestUrl %></p>
+</body>
+</html>
