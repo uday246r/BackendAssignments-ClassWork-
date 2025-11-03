@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   <h2>Name: <%= student.name %> </h2>
+   <h4 style="background-color: limegreen; display:inline-block; color:white"><%= student.role === "admin"  ? "*Admin Access" : "" %></h4>
+
+   <h2>Courses : </h2>
+
+   <% if(courses.length == 0){ %>
+    <h5>No courses enrolled yet</h5>
+  <% } else{ %>
+<ol type="1">
+   <% courses.forEach((e)=>{ 
+    let clr;
+    if(e.grade==="A") clr="green";
+    else if(e.grade==="B") clr="blue";
+    else clr="red";
+    %>
+        <li>
+            <p style="display:inline-block; margin-right: 10px;"><%= e.title %></p>
+            <p style="display:inline-block; color:<% =clr %>"><%=e.grade%></p>
+        </li>
+   <% }) %>
+ </ol>
+<% } %>
+
+   <h2>Notice : </h2>
+
+   <p><%=notice%></p>
+   <p><%-notice%></p>
+
+   <%- include('footer') %>
+</body>
+
+
+</html>

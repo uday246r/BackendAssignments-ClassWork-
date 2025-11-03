@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require("mongoose");
 const app = express();
-const {Employees} = require("../db");
+const {Employees, Department} = require("../db");
 
 const employeesData = [
     {
@@ -165,6 +165,98 @@ app.get("/search-employee/:name",async(req,res)=>{
 })
 
 
+const departmentData = [
+    {
+        depttid: "101",
+        deptname: "Engineering"
+    },
+    {
+        depttid: "102",
+        deptname: "Pharmacy"
+    },
+    {
+        depttid: "103",
+        deptname: "Nursing"
+    }
+]
+
+app.post("/seed-departments",async(req,res)=>{
+    try{
+        const ack = await Department.create(departmentData);
+    console.log(ack);
+    res.status(201).json({ message: "Department seeded successfully", data: ack });
+    }
+    catch(err){
+        console.log(err);
+        res.status(400).json({ message: "Department not seeded", data: err });
+
+    }
+})
+
+app.get("/view-departments", async(req,res)=>{
+    try{
+        const data = await Department.find();
+        console.log(data);
+        res.status(200).json({message: "ok", data: data});
+    } catch(err){
+        console.log("error in view-department")
+    }
+})
+
+app.get("/add-department/:id/:name", async(req,res)=>{
+    try{
+         const {id, name} = req.params;
+         const data = {
+            depttid: parseInt(id),      
+            deptname: name,
+         }
+         const awk = await Department.create(data);
+         console.log(awk);
+         res.status(201).json({ message: "Single Department added successfully", data: awk });
+    } catch(err){
+        console.log(err);
+    }
+})
+
+app.post("/delete-department/:id", async(req,res)=>{
+    try{
+     const {id} = req.params;
+     const department = await Department.deleteMany({depttid: Number(id)});
+     if (department.deletedCount==0) {
+      return res.status(404).json({ message: "Department not found" });
+    }
+    console.log(department);
+    res.status(200).json({ message: "Department deleted successfully", data: department });
+
+    } catch(err){
+        console.log(err);
+        res.status(400).json({ message: "Error occur", data: err });
+    }
+})
+
+app.patch("/update-department/:id/:newname", async(req,res)=>{
+    try{
+     const {id, newname} = req.params;
+     const department = await Department.findOne({depttid: Number(id)});
+     if (!department) {
+      return res.status(404).json({ message: "Department not found" });
+    }
+     await Department.updateOne(
+        { depttid: id },
+        { $set: {deptname: newname} }
+    );
+    const updatedDepartment = await Department.findOne({depttid: Number(id)});
+    console.log(updatedDepartment);
+    res.status(200).json({ message: " Single Department name updated successfully", data: updatedDepartment });
+
+    } catch(err){
+        console.log(err);
+        res.status(400).json({ message: "Error occur", data: err });
+    }
+})
+
 app.listen(3000,()=>{
     console.log("server created...");
 })
+
+

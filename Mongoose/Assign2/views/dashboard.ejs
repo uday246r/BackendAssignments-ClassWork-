@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f9fc;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            text-align: center;
+            margin: 20px 0;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .subcontainer, form {
+            margin: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        input, select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus, select:focus {
+            border-color: #007bff;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 14px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            background: #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin: 20px auto;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        thead {
+            background-color: #007bff;
+            color: white;
+            text-align: left;
+        }
+
+        thead td {
+            padding: 12px;
+            font-weight: bold;
+        }
+
+        tbody td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+        }
+
+        tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Action buttons container */
+        .action-buttons {
+            display: flex;
+            flex-direction: column;   /* stack vertically */
+            gap: 6px;                /* space between buttons */
+        }
+
+        .edit-btn {
+            background-color: #28a745;
+        }
+
+        .edit-btn:hover {
+            background-color: #1e7e34;
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+        }
+
+        .delete-btn:hover {
+            background-color: #a71d2a;
+        }
+    </style>
+</head>
+<body>
+    <h2>Student Management</h2>
+    <div class="container">
+        <div class="subcontainer">
+            <form action="/addStudent" method="post">
+                <input type="text" name="name" placeholder="Name">
+                <input type="text" name="section" placeholder="Section">
+                <input type="number" name="marks" placeholder="Marks">
+                <button>Add Student</button>
+            </form>
+        </div>
+
+        <div style="margin:3px;">
+            <form action="/filter" method="post">
+                <select name="filtered">
+                    <option value="gt">Greater Than</option>
+                    <option value="lt">Less Than</option>
+                </select>
+                <input type="number" name="marks" placeholder="Marks">
+                <button>Filter</button>
+            </form>
+        </div>
+
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Section</td>
+                        <td>Marks</td>
+                        <td>Actions</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% students.forEach((e)=>{ %>
+                        <tr>
+                            <td><%= e.name %></td>
+                            <td><%= e.section %></td>
+                            <td><%= e.marks %></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="edit-btn" id="<%= e._id %>" onclick="editStudent(event)">Edit</button>
+                                    <button class="delete-btn" id="<%= e._id %>" onclick="delStudent(event)">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+                   <% }) %>
+                </tbody>
+            </table>
+        </div>
+
+        <div style="margin:20px; text-align:center;">
+            <% if(currentPage>1) { %>
+                <a href="/?page=<%= currentPage-1 %>">
+                    <button>Prev</button>
+                </a>
+            <% } %>
+            <span>Page <%= currentPage%> of <%= totalPages %></span>
+            
+            <% if(currentPage < totalPages) { %>
+            <a href="/?page=<%= currentPage + 1 %>">
+                <button>Next</button>
+            </a>
+            <% } %>
+        </div>
+    </div>
+</body>
+<script>
+
+    function delStudent(event){
+        fetch(`delete/${event.target.id}`,{
+            method:"GET"
+        })
+        .then(()=>window.location.reload())
+    }
+
+    function editStudent(event){
+        fetch(`/edit/${event.target.id}`,{
+            method:"GET"
+        })
+        .then(()=>window.location.href = `/edit/${event.target.id}`)
+    }
+</script>
+</html>

@@ -6,13 +6,9 @@
     <title>Document</title>
 </head>
 <body>
-    <%- greetings %>
-
-   <%- greetings && greetings.length>
-    ? `<h1>Welocome back, ${greetings}!</h1>`
-    : "<h2>Please login to continue</h2>"
-    %>
-   
-
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="image" placeholder="Upload Image" />
+        <button type="submit">Submit</button>
+    </form>
 </body>
 </html>
