@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="sbt">
+        <input type="text" id="name" placeholder="Enter your name"/>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+<script>
+    const bttn = document.getElementById("sbt");
+    const name = document.getElementById("name");
+
+    bttn.addEventListener("submit", (e) => {
+        e.preventDefault();
+        localStorage.setItem("user",name.value);
+        console.log("reach");
+        window.location.href = `/chat?user=${name.value}`;
+    });
+</script>
+</html>

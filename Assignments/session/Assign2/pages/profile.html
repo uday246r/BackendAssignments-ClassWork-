@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Profile Page</h1>
+    <div id="profileDetails"></div>
+
+    <form method="post" action="/logout">
+        <button type="submit">Logout</button>
+    </form>
+</body>
+
+    <script>
+        fetch("/api/profile")
+        .then(res=>{
+            if(res.redirected){
+                window.location.href=res.url;
+            }
+            return res.json();
+        })
+        .then(data=>{
+            const displayField= document.getElementById("profileDetails").innerHTML=`
+          <p><b>Username:</b> ${data.username}</p>
+          <p><b>Session ID:</b> ${data.sessionID}</p>
+          <p><b>Time since login:</b> ${data.timeSinceLogin} seconds</p>
+        `;
+        })
+        .catch(err=> console.error(err));
+    </script>
+</html>
